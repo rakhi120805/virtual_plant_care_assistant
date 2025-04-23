@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Plant Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-100 py-10">
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-3xl font-semibold text-green-700 mb-6">Plant Details</h2>
+        {% if plant %}
+        <div class="flex flex-col md:flex-row items-center md:items-start mb-6">
+            {% if plant.default_image and plant.default_image.regular_url %}
+            <img src="{{ plant.default_image.regular_url }}" alt="{{ plant.common_name }}" class="w-full md:w-1/2 rounded-md shadow-md mr-4 mb-4 md:mb-0 object-cover" style="max-height: 300px;">
+            {% endif %}
+            <div>
+                <h3 class="text-2xl font-semibold text-green-600 mb-2">{{ plant.common_name }} {% if plant.scientific_name %}({{ plant.scientific_name|join(', ') }}){% endif %}</h3>
+                <p class="text-gray-700 mb-4">{{ plant.description|safe }}</p>
+                <div class="mb-4">
+                    <h4 class="text-lg font-semibold text-green-500 mb-1">Care Information:</h4>
+                    {% if plant.care_level %}
+                    <p class="text-gray-700"><strong>Care Level:</strong> {{ plant.care_level }}</p>
+                    {% endif %}
+                    {% if plant.watering %}
+                    <p class="text-gray-700"><strong>Watering:</strong> {{ plant.watering }}</p>
+                    {% endif %}
+                    {% if plant.sunlight %}
+                    <p class="text-gray-700"><strong>Sunlight:</strong> {{ plant.sunlight|join(', ') }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="mt-6">
+            <a href="/" class="text-green-500 hover:text-green-700 font-semibold">🔙 Back to Home</a>
+        </div>
+        {% else %}
+        <p class="text-gray-500">Plant details not found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

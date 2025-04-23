@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌿 Virtual Plant Assistant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-50 font-sans">
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-extrabold text-green-700">🌱 Virtual Plant Assistant</h1>
+      <nav class="space-x-4">
+        <a href="/my_plants" class="inline-flex items-center px-4 py-2 rounded-lg text-white bg-green-600 hover:bg-green-700 transition shadow">
+          🌿 My Plants
+        </a>
+        <button id="chatbotButton" class="inline-flex items-center px-4 py-2 rounded-lg text-white bg-green-500 hover:bg-green-600 transition shadow">
+          🤖 Chatbot
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  
+ <!-- Hero Section with Image Right -->
+<section class="bg-green-100 py-12">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+      
+      <!-- Left Text Content -->
+      <div class="md:w-1/2 text-center md:text-left">
+        <h2 class="text-4xl md:text-5xl font-bold text-green-800 mb-4">Nurture Your Nature</h2>
+        <p class="text-lg text-green-700 mb-6">Explore, learn, and care for your plants like a pro with our Virtual Plant Assistant.</p>
+        <a href="/my_plants" class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg shadow transition">
+          🌿 Get Started
+        </a>
+      </div>
+  
+      <!-- Right Bot Image -->
+      <div class="md:w-1/2 mt-10 md:mt-0 flex justify-center">
+        <img src="/static/bot.jpg" alt="Plant Bot" class="max-w-xs w-full rounded-xl shadow-md">
+      </div>
+      
+    </div>
+  </section>
+  
+
+  <!-- Search Section -->
+  <section class="container mx-auto mt-10 px-4">
+    <div class="bg-green-100 p-8 rounded-xl shadow">
+      <h2 class="text-2xl font-semibold text-green-800 mb-4">Search for a Plant</h2>
+      <form action="/search" method="post" class="flex flex-col md:flex-row items-center">
+        <input type="text" name="plant_name" placeholder="Enter plant name" required class="w-full md:flex-1 py-2 px-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 mb-4 md:mb-0 md:mr-4">
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition shadow">
+          🔍 Search
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Quote -->
+  <section class="container mx-auto mt-10 px-4">
+    <div class="bg-green-50 border-l-4 border-green-600 p-6 rounded-lg shadow-sm">
+      <p class="text-xl italic text-green-800 mb-2">"To plant a garden is to believe in tomorrow."</p>
+      <p class="text-green-900 font-semibold text-right">- Audrey Hepburn</p>
+    </div>
+  </section>
+
+  <!-- Tips Section -->
+  <section class="container mx-auto mt-10 px-4">
+    <div class="bg-white p-8 rounded-xl shadow">
+      <h2 class="text-2xl font-bold text-green-800 mb-6">🌿 Quick Plant Care Tips</h2>
+      <ul class="space-y-4 text-green-900">
+        <li><strong>☀️ Light:</strong> Most plants thrive in bright, indirect sunlight.</li>
+        <li><strong>💧 Watering:</strong> Water only when the top inch of soil feels dry.</li>
+        <li><strong>💨 Humidity:</strong> Mist tropical plants or group them for moisture.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-12 py-4 bg-green-100 text-center text-green-900">
+    © 2024 Virtual Plant Assistant. All rights reserved.
+  </footer>
+
+  <!-- Chatbot Modal -->
+  <div id="chatbotModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <span class="close text-gray-500 hover:text-black float-right text-2xl cursor-pointer">&times;</span>
+      <div id="chatbot-messages" class="h-64 overflow-y-auto border p-3 mb-4 rounded bg-white space-y-2 text-sm text-gray-800 leading-relaxed font-medium scroll-smooth"></div>
+      <div class="flex gap-2">
+        <input type="text" id="user-input" placeholder="Ask something..." class="flex-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500">
+        <button id="send-button" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot Script -->
+  <script>
+    const modal = document.getElementById("chatbotModal");
+    const btn = document.getElementById("chatbotButton");
+    const span = modal.querySelector(".close");
+    const messages = document.getElementById("chatbot-messages");
+    const input = document.getElementById("user-input");
+    const send = document.getElementById("send-button");
+
+    btn.onclick = () => modal.classList.remove("hidden");
+    span.onclick = () => modal.classList.add("hidden");
+    window.onclick = (e) => { if (e.target == modal) modal.classList.add("hidden"); };
+
+    function displayMessage(text, type) {
+      const div = document.createElement("div");
+      div.className = `p-2 my-1 rounded ${type === 'user' ? 'bg-green-100 text-right' : 'bg-gray-200'}`;
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    send.onclick = () => {
+      const userText = input.value.trim();
+      if (!userText) return;
+      displayMessage(userText, 'user');
+      input.value = '';
+      fetch("/gemini_query", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: userText })
+      }).then(res => res.json())
+        .then(data => displayMessage(data.response, 'bot'))
+        .catch(() => displayMessage("Something went wrong. Try again.", 'bot'));
+    };
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") send.click();
+    });
+  </script>
+</body>
+</html>
