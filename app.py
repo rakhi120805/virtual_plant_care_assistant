@@ -3,7 +3,7 @@ import requests
 from datetime import datetime, timedelta
 import os
 from werkzeug.utils import secure_filename
-import google.generativeai as genai 
+import google.generativeai as genai  
 import logging
 
 app = Flask(__name__)
@@ -16,7 +16,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 genai.configure(api_key=GENAI_KEY)
 
 my_plants_data = []  
-logging.basicConfig(level=logging.INFO) 
+logging.basicConfig(level=logging.INFO)  
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
