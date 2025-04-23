@@ -3,20 +3,20 @@ import requests
 from datetime import datetime, timedelta
 import os
 from werkzeug.utils import secure_filename
-import google.generativeai as genai  # Gemini API
+import google.generativeai as genai 
 import logging
 
 app = Flask(__name__)
-API_KEY = 'sk-i7ve68048a53e1bae9908'  # Perenual API Key
-GENAI_KEY = "AIzaSyDKaRp-euqRBdzbTIXctkH_hpTtE8Tyn24"  # Replace with your Gemini API key
+API_KEY = ''  
+GENAI_KEY = ""  
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 genai.configure(api_key=GENAI_KEY)
 
-my_plants_data = []  # Global list to store user's plant data
-logging.basicConfig(level=logging.INFO)  # Set logging level
+my_plants_data = []  
+logging.basicConfig(level=logging.INFO) 
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
